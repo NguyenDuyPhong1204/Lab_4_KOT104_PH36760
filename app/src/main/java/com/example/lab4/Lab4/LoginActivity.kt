@@ -16,9 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,11 +41,12 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-                LoginScreen()
+            LoginScreen()
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun LoginScreen() {
@@ -77,19 +81,30 @@ fun LoginScreen() {
             value = password,
             onValueChange = { password = it },
             label = { Text(text = "Password") },
-            visualTransformation = PasswordVisualTransformation())
+            visualTransformation = PasswordVisualTransformation()
+        )
 
         Spacer(modifier = Modifier.padding(top = 20.dp))
+
+        TextField(
+            value = userName,
+            onValueChange = { userName = it },
+            colors = TextFieldDefaults.textFieldColors(containerColor = Color.White)
+        )
 
         Button(
             modifier = Modifier.width(150.dp),
             shape = RoundedCornerShape(15.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
             onClick = {
-                if(userName.isNotBlank() && password.isNotBlank()){
-                    Toast.makeText(context,"Login success", Toast.LENGTH_SHORT).show()
-                }else{
-                    Toast.makeText(context,"Please enter username and password", Toast.LENGTH_SHORT).show()
+                if (userName.isNotBlank() && password.isNotBlank()) {
+                    Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Please enter username and password",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }) {
             Text(text = "Đăng nhập")
